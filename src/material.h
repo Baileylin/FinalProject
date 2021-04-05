@@ -20,9 +20,15 @@ public:
   virtual bool scatter(const ray& r_in, const hit_record& rec, 
      glm::color& attenuation, ray& scattered) const override 
   {
-     // todo
+      using namespace glm;
+      vec3 scatter_direction = rec.normal + random_unit_vector();
+      if (near_zero(scatter_direction)) 
+      {
+          scatter_direction = rec.normal;
+      }
+      scattered = ray(rec.p, scatter_direction);
       attenuation = albedo;
-      return false;
+      return true;
   }
 
 public:
@@ -80,9 +86,10 @@ public:
    virtual bool scatter(const ray& r_in, const hit_record& rec, 
       glm::color& attenuation, ray& scattered) const override 
    {
-     // todo
-      attenuation = albedo;
-      return false;
+       glm::vec3 reflected = glm::reflect(glm::normalize(r_in.direction()), rec.normal);
+       scattered = ray(rec.p, reflected + fuzz * random_unit_vector());
+       attenuation = albedo;
+       return (dot(scattered.direction(), rec.normal) > 0);
    }
 
 public:
@@ -97,9 +104,26 @@ public:
   virtual bool scatter(const ray& r_in, const hit_record& rec, 
      glm::color& attenuation, ray& scattered) const override 
    {
-     // todo
-     attenuation = glm::color(0);
-     return false;
+      attenuation = glm::color(1.0, 1.0, 1.0);
+      float refraction_ratio = rec.front_face ? (1.0 / ir) : ir;
+
+      glm::vec3 unit_direction = glm::normalize((r_in.direction()));
+      float cos_theta = fmin(dot(-unit_direction, rec.normal), 1.0);
+      float sin_theta = sqrt(1.0 - cos_theta * cos_theta);
+
+      bool cannot_refract = refraction_ratio * sin_theta > 1.0;
+      glm::vec3 direction;
+
+      if (cannot_refract)
+          direction = glm::reflect(unit_direction, rec.normal);
+      else
+      {
+          glm::vec3 r_out_perp = refraction_ratio * (unit_direction + cos_theta * rec.normal);
+          glm::vec3 r_out_parallel = (float)-sqrt(fabs(1.0 - length(r_out_perp)*length(r_out_perp))) * rec.normal;
+          direction = r_out_perp + r_out_parallel;
+      }
+      scattered = ray(rec.p, direction);
+      return true;
    }
 
 public:

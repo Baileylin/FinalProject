@@ -75,10 +75,14 @@ int main(int argc, char** argv)
                false, 
                none); 
 
-   test_sphere(s, 
-               ray(point3(0, 0, 3), vec3(0, 1,-3)), // ray outside/towards sphere (hit)
-               true, 
-               hit_record{vec3(0,0.3432f, 1.9703f), vec3(0,0.1716f, 0.9851f), 0.3432f, true, empty}); 
+   //test_sphere(s, 
+   //            ray(point3(0, 0, 3), vec3(0, 1,-3)), // ray outside/towards sphere (hit)
+   //            true, 
+   //            hit_record{vec3(0,0.3432f, 1.9703f), vec3(0,0.1716f, 0.9851f), 0.3432f, true, empty}); 
+   //  
 
-   // TODO: Your tests here
+
+   /*************Tests for planes*************/
+   plane newPlane(point3(0), vec3(0.0, 0.0, 1.0), empty);
+
 }
