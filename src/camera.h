@@ -5,6 +5,7 @@
 #define CAMERA_H
 
 #include "AGLM.h"
+#include <cmath>
 
 class camera 
 {
@@ -29,7 +30,20 @@ public:
           float vfov, // vertical field-of-view in degrees
           float aspect_ratio) 
    {
-      // todo
+       const float pi = 2 * acos(0.0);
+       float theta = vfov * (pi/180);
+       float h = tan(theta / 2);
+       float viewport_height = 2.0 * h;
+       float viewport_width = aspect_ratio * viewport_height;
+
+       glm::vec3 w = normalize(lookfrom - lookat);
+       glm::vec3 u = normalize(cross(vup, w));
+       glm::vec3 v = cross(w, u);
+
+       origin = lookfrom;
+       horizontal = viewport_width * u;
+       vertical = viewport_height * v;
+       lower_left_corner = origin - horizontal / 2.0f - vertical / 2.0f - w;
    }
 
    virtual ray get_ray(float u, float v) const 
