@@ -15,16 +15,16 @@ public:
       
       float numerator = glm::dot(glm::vec3(a - r.origin()), n);
       float denominator = glm::dot(r.direction(), n);
-      if (denominator > 0.0001)
+      if (fabs(denominator) > 0.0001)
       {
           float t = numerator / denominator;
           rec.t = t; // save the time when we hit the object
           rec.p = r.at(t); // ray.origin + t * ray.direction
           rec.mat_ptr = mat_ptr;
 
-          glm::vec3 outward_normal = normalize((rec.p - a) + n); // compute unit length normal
+          glm::vec3 outward_normal = normalize(n); // compute unit length normal
           rec.set_face_normal(r, outward_normal);
-          return true;
+          return (t >= 0);
       }
       return false;
    }

@@ -13,8 +13,13 @@ public:
 
    virtual bool hit(const ray& r, hit_record& rec) const override
    {
-      // todo
-      return false;
+       glm::vec3 e1 = b - a;
+       glm::vec3 e2 = c - a;
+       glm::vec3 p = glm::cross(r.direction(), e2);
+       float a = glm::dot(e1, p);
+
+       
+       return false;
    }
 
 public:

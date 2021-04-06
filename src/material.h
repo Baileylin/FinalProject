@@ -62,9 +62,17 @@ public:
   virtual bool scatter(const ray& r_in, const hit_record& hit, 
      glm::color& attenuation, ray& scattered) const override 
   {
-     // todo
-     attenuation = glm::color(0);
-     return false;
+      glm::color Ia = ka * glm::color(0.01, 0.01, 0.01);
+
+      glm::vec3 unit_direction = normalize(r_in.direction());
+      glm::vec3 unit_normal = normalize(hit.normal);
+      glm::color light_color = 3.0f * glm::color(0.01, 0.01, 0.01);
+      glm::color Id = kd * glm::max(0.0f, glm::dot(normalize(lightPos), normalize(hit.normal))) * glm::color(1.0, 1.0, 1.0);
+
+
+      glm::color specular = 3.0f * lightPos * dot(normalize(viewPos), normalize(reflect(lightPos, hit.normal)));//need to normalize two vectors inside dot()
+      attenuation = glm::color(0);
+      return false;
   }
 
 public:
