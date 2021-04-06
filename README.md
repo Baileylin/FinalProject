@@ -5,7 +5,7 @@ Implements a raytracer based on the book [_Ray Tracing in One Weekend_](https://
 # Unique Feature     
 
 Implements changing camera position with lookat and lookup vectors    
-<img src="./unique_feature_image/basic.png"  width=250>
+<img src='./unique_feature_image/basic.png'  width='250' />
 
 
 
