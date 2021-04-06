@@ -73,7 +73,7 @@ void ray_trace(ppm_image& image)
    vec3 camera_pos(0);
    float viewport_height = 2.0f;
    float focal_length = 1.0; 
-   camera cam(camera_pos, viewport_height, aspect, focal_length);
+   camera cam(point3(-2, 2, 1), point3(0, 0, -1), vec3(0, 1, 0), 90, aspect);
 
    // Ray trace
    for (int j = 0; j < height; j++)
