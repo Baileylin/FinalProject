@@ -16,10 +16,32 @@ public:
        glm::vec3 e1 = b - a;
        glm::vec3 e2 = c - a;
        glm::vec3 p = glm::cross(r.direction(), e2);
-       float a = glm::dot(e1, p);
-
        
-       return false;
+       float product = glm::dot(e1, p);
+       float eps = 0.0000001;
+
+       if (fabs(product) < eps) return false;
+       float f = 1 / product;
+       
+       glm::vec3 s = r.origin() - a;
+       float u = f * (glm::dot(s, p));
+       if (u < 0.0 || u > 1.0) return false;
+
+       glm::vec3 q = cross(s, e1);
+       float v = f * (glm::dot(r.direction(), q));
+       if (v < 0.0 || ((u + v) > 1.0)) return false;
+
+       float t = f * (glm::dot(e2, q));
+       rec.t = t; // save the time when we hit the object
+       rec.p = r.at(t); // ray.origin + t * ray.direction
+       rec.mat_ptr = mat_ptr;
+
+       // save normal
+       glm::vec3 normal_vector = glm::cross(e1, e2);
+       glm::vec3 outward_normal = normalize(normal_vector); // compute unit length normal
+       rec.set_face_normal(r, outward_normal);
+
+       return true;
    }
 
 public:

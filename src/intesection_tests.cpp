@@ -63,6 +63,19 @@ void test_plane(const plane& s, const ray& r, bool hits, const hit_record& desir
     }
 }
 
+void test_triangle(const triangle& s, const ray& r, bool hits, const hit_record& desired) {
+    hit_record hit;
+    bool result = s.hit(r, hit);
+
+    check(result == hits, "error: ray should hit", hit, r);
+    if (hits) {
+        check(vecEquals(hit.p, desired.p), "error: position incorrect:", hit, r);
+        check(vecEquals(hit.normal, desired.normal), "error: normal incorrect:", hit, r);
+        check(equals(hit.t, desired.t), "error: hit time incorrect", hit, r);
+        check(hit.front_face == desired.front_face, "error: front facing incorrect", hit, r);
+    }
+}
+
 int main(int argc, char** argv)
 {
    shared_ptr<material> empty = 0; 
@@ -113,4 +126,10 @@ int main(int argc, char** argv)
               false,
               none);
 
+   /*************Tests for triangles*************/
+   triangle newTriangle(point3(2.0, -2.0, 0.0), point3(0.0, 2.0, 0.0), point3(-2.0, -2.0, 0.0), empty);
+   test_triangle(newTriangle,
+       ray(point3(0, 0, 3), vec3(0, 0, -1)), //A ray outside the plane which hits the triangle
+       true,
+       hit_record{ vec3(0,0,0), vec3(0,0,1), 3.0f, true, empty });
 }
