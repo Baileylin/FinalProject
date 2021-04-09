@@ -129,7 +129,22 @@ int main(int argc, char** argv)
    /*************Tests for triangles*************/
    triangle newTriangle(point3(2.0, -2.0, 0.0), point3(0.0, 2.0, 0.0), point3(-2.0, -2.0, 0.0), empty);
    test_triangle(newTriangle,
-       ray(point3(0, 0, 3), vec3(0, 0, -1)), //A ray outside the plane which hits the triangle
-       true,
-       hit_record{ vec3(0,0,0), vec3(0,0,1), 3.0f, true, empty });
+                 ray(point3(0, 0, 3), vec3(0, 0, -1)), //A ray outside the triangle which hits the triangle
+                 true,
+                 hit_record{ vec3(0,0,0), vec3(0,0,1), 3.0f, true, empty });
+
+   test_triangle(newTriangle,
+                 ray(point3(0, 0, 3), vec3(0, 0, 11)), // A ray outside, pointing away from the triangle(misses)
+                 false,
+                 none);
+
+   test_triangle(newTriangle,
+                 ray(point3(0, 0, 10), vec3(1, 0, -1)), //A ray outside, pointing towards the triangle that misses
+                 false,
+                 none);
+
+   test_triangle(newTriangle,
+                 ray(point3(0, 0, 0), vec3(0, 1, 0)), //A ray inside the triangle (hits). For this case, the algorithm doesn't recognize triangle as a shape
+                 false,
+                 none);
 }
