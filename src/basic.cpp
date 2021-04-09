@@ -175,7 +175,8 @@ void ray_trace(ppm_image& image)
    vec3 camera_pos(0);
    float viewport_height = 2.0f;
    float focal_length = 1.0; 
-   camera cam(camera_pos, viewport_height, aspect, focal_length);
+   camera cam1(camera_pos, viewport_height, aspect, focal_length);
+   camera cam2(point3(-2, 2, 1), point3(0, 0, -1), vec3(0, 1, 0), 90, aspect);
 
    // Ray trace
    for (int j = 0; j < height; j++)
@@ -188,7 +189,7 @@ void ray_trace(ppm_image& image)
             float u = float(i + random_float()) / (width - 1);
             float v = float(height - j - 1 - random_float()) / (height - 1);
 
-            ray r = cam.get_ray(u, v);
+            ray r = cam1.get_ray(u, v);
             c += ray_color(r, world, max_depth);
          }
          c = normalize_color(c, samples_per_pixel);
