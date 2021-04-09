@@ -60,7 +60,7 @@ color ray_color(const ray& r, const hittable_list& world, int depth)
    }
    vec3 unit_direction = normalize(r.direction());
    auto t = 0.5f * (unit_direction.y + 1.0f);
-   return (1.0f - t) * color(1, 1, 1) + t * color(0.5f, 0.7f, 1.0f);
+   return (1.0f - t) * color(1, 1, 1) + t * color(0.8, 0.3f, 0.4f);
 }
 
 color normalize_color(const color& c, int samples_per_pixel)
