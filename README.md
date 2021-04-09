@@ -13,8 +13,9 @@ Implements changing camera position with lookat and lookup vectors. (Change cam1
 2. Used sphere, triangle, and plane
 3. Created a tetrahedron
 4. Created a snowflake-pattern of spheres   
-(this unique image is implemented in basic.cpp)
+
 <img src='./images/unique_image.png'  width='550' />
+(this unique image is implemented in basic.cpp)
 
 
 
