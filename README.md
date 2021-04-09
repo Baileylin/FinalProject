@@ -12,7 +12,7 @@ Implements changing camera position with lookat and lookup vectors
 2. Used sphere, triangle, and plane
 3. Created a tetrahedron
 4. Created a snowflake-pattern of spheres
-<img src='./images/unique_image'  width='550' />
+<img src='./images/unique_image.png'  width='550' />
 
 
 
