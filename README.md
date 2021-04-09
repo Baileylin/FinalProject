@@ -2,7 +2,10 @@
 
 Implements a raytracer based on the book [_Ray Tracing in One Weekend_](https://raytracing.github.io/books/RayTracingInOneWeekend.html). 
 
-# Unique Feature     
+# Basic
+
+# Unique Feature 
+<img src='./images/basic.png'  width='550' />
 
 Implements changing camera position with lookat and lookup vectors. (Change cam1 in line 192 in basic.cpp to cam2 to recreate this image.)     
 
