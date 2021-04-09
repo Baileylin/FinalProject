@@ -2,16 +2,18 @@
 
 Implements a raytracer based on the book [_Ray Tracing in One Weekend_](https://raytracing.github.io/books/RayTracingInOneWeekend.html). 
 
-# Basic
-
-# Unique Feature 
+## Basic   
 <img src='./images/basic.png'  width='550' />
 
+## Materials
+<img src='./images/materials.png'  width='550' />
+
+## Unique Feature 
 Implements changing camera position with lookat and lookup vectors. (Change cam1 in line 192 in basic.cpp to cam2 to recreate this image.)     
 
 <img src='./images/basic_with_changed_camera_position.png'  width='550' />
 
-# Unique Image  
+## Unique Image  
 1. Background color changed
 2. Used sphere, triangle, and plane
 3. Created a tetrahedron
