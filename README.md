@@ -4,14 +4,16 @@ Implements a raytracer based on the book [_Ray Tracing in One Weekend_](https://
 
 # Unique Feature     
 
-Implements changing camera position with lookat and lookup vectors    
+Implements changing camera position with lookat and lookup vectors. (Changed cam1 in line 192 in basic.cpp to cam2 to recreate this image.)     
+
 <img src='./images/basic_with_changed_camera_position.png'  width='550' />
 
-# Unique Image   
+# Unique Image  
 1. Background color changed
 2. Used sphere, triangle, and plane
 3. Created a tetrahedron
-4. Created a snowflake-pattern of spheres
+4. Created a snowflake-pattern of spheres   
+(implemented in basic.cpp)
 <img src='./images/unique_image.png'  width='550' />
 
 
