@@ -1,6 +1,4 @@
-# raytracer
-
-Implements a raytracer based on the book [_Ray Tracing in One Weekend_](https://raytracing.github.io/books/RayTracingInOneWeekend.html). 
+# Final Project
 
 ## Basic   
 <img src='./images/basic.png'  width='550' />
@@ -22,6 +20,8 @@ Implements changing camera position with lookat and lookup vectors. (Change cam1
 <img src='./images/unique_image.png'  width='550' />
 (this unique image is implemented in basic.cpp)
 
+## References
+Implements a raytracer based on the book [_Ray Tracing in One Weekend_](https://raytracing.github.io/books/RayTracingInOneWeekend.html). 
 
 
 ## How to build
