@@ -46,6 +46,7 @@ public:
        
        glm::vec3 outward_normal = normalize(normal_vector); // compute unit length normal
        rec.set_face_normal(r, outward_normal);
+       get_uv_coordinates(a, b, c, rec.p, rec.u, rec.v);
 
        return true;
    }
@@ -55,6 +56,17 @@ public:
    glm::point3 b;
    glm::point3 c;
    std::shared_ptr<material> mat_ptr;
+
+private:
+    static void get_uv_coordinates(const glm::point3& vertex1, const glm::point3& vertex2, const glm::point3& vertex3, const glm::point3& hitPoint, float& u, float& v) {
+        float baryA = ((vertex2.y-vertex3.y)*(hitPoint.x-vertex3.x)+(vertex3.x-vertex2.x)*(hitPoint.y-vertex3.y)) / 
+                      ((vertex2.y - vertex3.y) * (vertex1.x - vertex3.x) + (vertex3.x - vertex2.x) * (vertex1.y - vertex3.y));
+        float baryB = ((vertex3.y - vertex1.y) * (hitPoint.x - vertex3.x) + (vertex1.x - vertex3.x) * (hitPoint.y - vertex3.y)) /
+                      ((vertex2.y - vertex3.y) * (vertex1.x - vertex3.x) + (vertex3.x - vertex2.x) * (vertex1.y - vertex3.y));
+        float baryC = 1.0f - baryA - baryB;
+        u = baryA * vertex1.x + baryB * vertex2.x + baryC * vertex3.x;
+        v = baryA * vertex1.y + baryB * vertex2.y + baryC * vertex3.y;;
+    }
 };
 
 #endif

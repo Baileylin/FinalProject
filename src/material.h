@@ -5,17 +5,40 @@
 #include "AGLM.h"
 #include "ray.h"
 #include "hittable.h"
+#include "texture.h"
 
 class material {
 public:
-  virtual bool scatter(const ray& r_in, const hit_record& rec, 
-     glm::color& attenuation, ray& scattered) const = 0;
-  virtual ~material() {}
+    virtual glm::color emitted(double u, double v, const glm::point3& p) const {
+        return glm::color(0, 0, 0);
+    }
+    virtual bool scatter(const ray& r_in, const hit_record& rec, glm::color& attenuation, ray& scattered) const = 0;
+    virtual ~material() {}
+};
+
+class emit_light : public material 
+{
+public:
+    emit_light(shared_ptr<texture> a) : emit(a) {}
+    emit_light(glm::color c) : emit(make_shared<constant_texture>(c)) {}
+
+    virtual bool scatter(const ray& r_in, const hit_record& rec, glm::color& attenuation, ray& scattered) const override 
+    {
+        return false;
+    }
+
+    virtual glm::color emitted(double u, double v, const glm::point3& p) const override {
+        return emit->value(u, v, p);
+    }
+
+public:
+    shared_ptr<texture> emit;
 };
 
 class lambertian : public material {
 public:
-  lambertian(const glm::color& a) : albedo(a) {}
+    lambertian(const glm::color& a) : albedo(make_shared<constant_texture>(a)) {}
+    lambertian(shared_ptr<texture> a) : albedo(a) {}
 
   virtual bool scatter(const ray& r_in, const hit_record& rec, 
      glm::color& attenuation, ray& scattered) const override 
@@ -27,12 +50,12 @@ public:
           scatter_direction = rec.normal;
       }
       scattered = ray(rec.p, scatter_direction);
-      attenuation = albedo;
+      attenuation = albedo->value(rec.u, rec.v, rec.p);
       return true;
   }
 
 public:
-  glm::color albedo;
+    shared_ptr<texture> albedo;
 };
 
 class phong : public material {

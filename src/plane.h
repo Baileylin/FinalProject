@@ -24,6 +24,7 @@ public:
 
           glm::vec3 outward_normal = normalize(n); // compute unit length normal
           rec.set_face_normal(r, outward_normal);
+          //get_uv_coordinates();
           return (t >= 0);
       }
       return false;
@@ -33,6 +34,11 @@ public:
    glm::vec3 a;
    glm::vec3 n;
    std::shared_ptr<material> mat_ptr;
+
+private:
+    static void get_uv_coordinates(const glm::point3& p, float& u, float& v) {
+        
+    }
 };
 
 #endif

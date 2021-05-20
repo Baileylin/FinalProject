@@ -59,8 +59,8 @@ void ray_trace(ppm_image& image)
    int height = image.height();
    int width = image.width();
    float aspect = width / float(height);
-   int samples_per_pixel = 10; // higher => more anti-aliasing
-   int max_depth = 10; // higher => less shadow acne
+   int samples_per_pixel = 30; // higher => more anti-aliasing
+   int max_depth = 30; // higher => less shadow acne
 
    // World
    shared_ptr<material> gray = make_shared<lambertian>(color(0.5f));

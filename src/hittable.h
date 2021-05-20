@@ -14,6 +14,8 @@ struct hit_record {
    glm::vec3 normal; // the normal at the hit position
    float t = -1.0f; // the time t along the ray at which we hit the object
    bool front_face = false; // whether this is a front or back facing hit point
+   float u;
+   float v;
    std::shared_ptr<material> mat_ptr = 0; // save material of hit object
 
    inline void set_face_normal(const ray& r, const glm::vec3& outward_normal) {

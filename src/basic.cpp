@@ -40,6 +40,67 @@ color ray_color(const ray& r, const hittable_list& world, int depth)
    return (1.0f - t) * color(1, 1, 1) + t * color(0.5f, 0.7f, 1.0f);
 }
 
+
+//Monte Carlo Path Tracing
+void pathTrace(ppm_image& image)
+{
+    int height = image.height();
+    int width = image.width();
+    float aspect = width / float(height);
+    int samples_per_pixel = 10; // higher => more anti-aliasing
+    int max_depth = 10; // higher => less shadow acne
+
+    // World
+    shared_ptr<material> gray = make_shared<lambertian>(color(0.5f));
+
+    hittable_list world;
+    world.add(make_shared<sphere>(point3(0, 0, -1), 0.5f, gray));
+    world.add(make_shared<sphere>(point3(0, -100.5, -1), 100, gray));
+
+    // Camera
+    vec3 camera_pos(0);
+    float viewport_height = 2.0f;
+    float focal_length = 1.0;
+    camera cam1(camera_pos, viewport_height, aspect, focal_length);
+    camera cam2(point3(-2, 2, 1), point3(0, 0, -1), vec3(0, 1, 0), 90, aspect);
+
+    // Ray trace
+    for (int j = 0; j < height; j++)
+    {
+        for (int i = 0; i < width; i++)
+        {
+            color c(0, 0, 0);
+            for (int s = 0; s < samples_per_pixel; s++) // antialias
+            {
+                float u = float(i + random_float()) / (width - 1);
+                float v = float(height - j - 1 - random_float()) / (height - 1);
+
+                ray r = cam1.get_ray(u, v);
+                c += ray_color(r, world, max_depth);
+            }
+            c = normalize_color(c, samples_per_pixel);
+            image.set_vec3(j, i, c);
+        }
+    }
+
+    image.save("basic.png");
+}
+
+color normalize_color(const color& c, int samples_per_pixel)
+{
+    // todo: implement me!
+    float scale = 1.0f / samples_per_pixel;
+    float r = std::min(0.999f, std::max(0.0f, c.r * scale));
+    float g = std::min(0.999f, std::max(0.0f, c.g * scale));
+    float b = std::min(0.999f, std::max(0.0f, c.b * scale));
+
+    // apply gamma correction 
+    r = sqrt(r);
+    g = sqrt(g);
+    b = sqrt(b);
+
+    return color(r, g, b);
+}
 /*
 //this method is used to implement the unique image. Uncomment this method and comment the above ray_color() method to implement the unique image
 color ray_color(const ray& r, const hittable_list& world, int depth)
@@ -66,21 +127,7 @@ color ray_color(const ray& r, const hittable_list& world, int depth)
    return (1.0f - t) * color(1, 1, 1) + t * color(0.8, 0.3f, 0.4f);
 }*/
 
-color normalize_color(const color& c, int samples_per_pixel)
-{
-    // todo: implement me!
-    float scale = 1.0f / samples_per_pixel;
-    float r = std::min(0.999f, std::max(0.0f, c.r * scale));
-    float g = std::min(0.999f, std::max(0.0f, c.g * scale));
-    float b = std::min(0.999f, std::max(0.0f, c.b * scale));
 
-    // apply gamma correction 
-    r = sqrt(r);
-    g = sqrt(g);
-    b = sqrt(b);
-
-    return color(r, g, b);
-}
 
 /*
 //this method is used to implement the unique image. Uncomment this method and comment the below ray_trace() method to implement the unique image
@@ -155,7 +202,7 @@ void ray_trace(ppm_image& image)
 
 
 //this method is used to implement the original basic.png
-void ray_trace(ppm_image& image)
+/*void ray_trace(ppm_image& image)
 {
    // Image
    int height = image.height();
@@ -198,4 +245,6 @@ void ray_trace(ppm_image& image)
    }
 
    image.save("basic.png");
-}
+}*/
+
+

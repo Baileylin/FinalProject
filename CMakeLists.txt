@@ -90,7 +90,8 @@ set(RT_SOURCES
     src/plane.h
     src/box.h
     src/triangle.h
-    src/sphere.h)
+    src/sphere.h
+    src/texture.h)
 
 add_executable(gradient src/gradient.cpp src/Ray.h ${SOURCES})
 target_link_libraries(gradient ${CORE})
