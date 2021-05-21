@@ -46,8 +46,11 @@ bool moving_sphere::hit(const ray& r, float t_min, float t_max, hit_record& rec)
     float sqrtd = sqrt(discriminant);
     
     float t = (-half_b - sqrtd) / a;
-    if (t < 0) t = (-half_b + sqrtd) / a;
-    if (t < 0) return false;
+    if (t < t_min || t_max < t) {
+        t = (-half_b + sqrtd) / a;
+        if (t < t_min || t_max < t)
+            return false;
+    }
     
        // save relevant data in hit record
     rec.t = t; // save the time when we hit the object
