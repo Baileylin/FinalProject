@@ -11,7 +11,7 @@ This features allows objects to have customized texture. For example, an image c
 This feature allows objects to become a light source. To implement this feature, a new material will be added that with similar structure to lambertian material, but there is no scattering for the light source material. 
 4. Motion Blur (complete by May 17)
 This feature will produce an image that looks like the object is moving. Below is an image of motion blur for sphere. To implement motion blur, the ray and camera will need to have additional parameters recording the start time and end time for casting rays.
-<img src='./images/bounding.png'  width='550' />
+<img src='./images/motion.png'  width='550' />
 5. Defocus Blur (completed by May 17)
 This feature will make the camera similar to a lens. An object that is in a specific distance to the camera will be clear, but the object that is too far or too close to the camera will be blurry.
 
