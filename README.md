@@ -27,6 +27,8 @@ This texture is used to create a checker texture which allows two kinds of textu
 This texture allows am image to be mapped on sphere and triangle. 
 ### Sample Image
 <img src='./images/basic_checker_texture.png'  width='550' />
+<img src='./images/image_texture.png'  width='550' />
+<img src='./images/materials_check_texture.png'  width='550' />
 
 
 
@@ -38,5 +40,23 @@ The program allows sphere, triangles, and plane to become a light source. In the
 
 ## Other features
 ### Defocus Blur
+This feature is similar to the functionality of a lens. When an object is in a specific distance to the camera, it will be clear. However, when the object is too close or too far away from the camera, it will be blurry. 
+
+#### Sample Image
+<img src='./images/defocus_blur.png'  width='550' />
+
 ### Motion Blur
-## Image of Solar System
+This feature allows the 
+
+#### Sample Image
+<img src='./images/motion_blur.png'  width='550' />
+
+## Images
+<img src='./images/basic_checker_texture.png'  width='550' />
+<img src='./images/image_texture.png'  width='550' />
+<img src='./images/materials_check_texture.png'  width='550' />
+<img src='./images/light_sources.png'  width='550' />
+<img src='./images/defocus_blur.png'  width='550' />
+<img src='./images/motion_blur.png'  width='550' />
+<img src='./images/solar_system.png'  width='550' />
+
