@@ -1,4 +1,4 @@
-project(CS312-Raytracer)
+project(CS312-FinalProject)
 cmake_minimum_required(VERSION 2.8.11)
 
 if (WIN32) # Include win64 platforms
@@ -91,7 +91,8 @@ set(RT_SOURCES
     src/box.h
     src/triangle.h
     src/sphere.h
-    src/texture.h)
+    src/texture.h
+    src/moving_sphere.h)
 
 add_executable(gradient src/gradient.cpp src/Ray.h ${SOURCES})
 target_link_libraries(gradient ${CORE})

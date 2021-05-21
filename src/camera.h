@@ -28,7 +28,11 @@ public:
           glm::point3 lookat,
           glm::vec3   vup,
           float vfov, // vertical field-of-view in degrees
-          float aspect_ratio) 
+          float aspect_ratio,
+          float aperture,
+          float focus_dist,
+          float startTime = 0,
+          float endTime = 0)
    {
        const float pi = 2 * acos(0.0);
        float theta = vfov * (pi/180);
@@ -36,19 +40,26 @@ public:
        float viewport_height = 2.0 * h;
        float viewport_width = aspect_ratio * viewport_height;
 
-       glm::vec3 w = normalize(lookfrom - lookat);
-       glm::vec3 u = normalize(cross(vup, w));
-       glm::vec3 v = cross(w, u);
+       w = normalize(lookfrom - lookat);
+       u = normalize(cross(vup, w));
+       v = cross(w, u);
 
        origin = lookfrom;
-       horizontal = viewport_width * u;
-       vertical = viewport_height * v;
-       lower_left_corner = origin - horizontal / 2.0f - vertical / 2.0f - w;
+       horizontal = focus_dist * viewport_width * u;
+       vertical = focus_dist * viewport_height * v;
+       lower_left_corner = origin - 0.5f * horizontal - vertical / 2.0f - focus_dist * w;
+
+       lens_radius = aperture / 2;
+       time0 = startTime;
+       time1 = endTime;
    }
 
-   virtual ray get_ray(float u, float v) const 
+   virtual ray get_ray(float s, float t) const
    {
-       return ray(origin, lower_left_corner + u*horizontal + v*vertical - origin);
+       glm::vec3 rd = lens_radius * random_unit_disk();
+       glm::vec3 offset = u * rd.x + v * rd.y;
+
+       return ray(origin + offset, lower_left_corner + s * horizontal + t * vertical - origin - offset, random_float(time0, time1));
    }
 
 protected:
@@ -56,6 +67,9 @@ protected:
   glm::point3 lower_left_corner;
   glm::vec3 horizontal;
   glm::vec3 vertical;
+  glm::vec3 u, v, w;
+  float lens_radius;
+  float time0, time1;
 };
 #endif
 

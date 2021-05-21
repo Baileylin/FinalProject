@@ -10,7 +10,7 @@ public:
    plane(const glm::point3& p, const glm::vec3& normal, 
       std::shared_ptr<material> m) : a(p), n(normal), mat_ptr(m) {};
 
-   virtual bool hit(const ray& r, hit_record& rec) const override
+   virtual bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const override
    {
       
       float numerator = glm::dot(glm::vec3(a - r.origin()), n);

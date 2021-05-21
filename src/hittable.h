@@ -6,6 +6,7 @@
 
 #include "ray.h"
 #include <sstream>
+//#include "axis_align_bounding_box.h"
 
 class material;
 
@@ -35,7 +36,8 @@ struct hit_record {
 
 class hittable {
 public:
-   virtual bool hit(const ray& r, hit_record& rec) const = 0;
+   //virtual bool hit(const ray& r, hit_record& rec) const = 0;
+   virtual bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const = 0;
    virtual ~hittable() {}
 };
 

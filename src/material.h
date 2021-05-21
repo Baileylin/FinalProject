@@ -49,7 +49,7 @@ public:
       {
           scatter_direction = rec.normal;
       }
-      scattered = ray(rec.p, scatter_direction);
+      scattered = ray(rec.p, scatter_direction, r_in.getTime());
       attenuation = albedo->value(rec.u, rec.v, rec.p);
       return true;
   }
@@ -117,7 +117,7 @@ public:
       glm::color& attenuation, ray& scattered) const override 
    {
        glm::vec3 reflected = glm::reflect(glm::normalize(r_in.direction()), rec.normal);
-       scattered = ray(rec.p, reflected + fuzz * random_unit_vector());
+       scattered = ray(rec.p, reflected + fuzz * random_unit_vector(), r_in.getTime());
        attenuation = albedo;
        return (dot(scattered.direction(), rec.normal) > 0);
    }
@@ -152,7 +152,7 @@ public:
           glm::vec3 r_out_parallel = (float)-sqrt(fabs(1.0 - length(r_out_perp)*length(r_out_perp))) * rec.normal;
           direction = r_out_perp + r_out_parallel;
       }
-      scattered = ray(rec.p, direction);
+      scattered = ray(rec.p, direction, r_in.getTime());
       return true;
    }
 

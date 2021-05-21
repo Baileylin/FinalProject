@@ -11,7 +11,7 @@ public:
    triangle(const glm::point3& v0, const glm::point3& v1, const glm::point3& v2, 
       std::shared_ptr<material> m) : a(v0), b(v1), c(v2), mat_ptr(m) {};
 
-   virtual bool hit(const ray& r, hit_record& rec) const override
+   virtual bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const override
    {
        glm::vec3 e1 = b - a;
        glm::vec3 e2 = c - a;
@@ -65,7 +65,7 @@ private:
                       ((vertex2.y - vertex3.y) * (vertex1.x - vertex3.x) + (vertex3.x - vertex2.x) * (vertex1.y - vertex3.y));
         float baryC = 1.0f - baryA - baryB;
         u = baryA * vertex1.x + baryB * vertex2.x + baryC * vertex3.x;
-        v = baryA * vertex1.y + baryB * vertex2.y + baryC * vertex3.y;;
+        v = baryA * vertex1.y + baryB * vertex2.y + baryC * vertex3.y;
     }
 };
 
