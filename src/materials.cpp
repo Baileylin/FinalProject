@@ -92,7 +92,7 @@ void ray_trace(ppm_image& image)
 	float focal_length = 4.0;
 	camera cam(camera_pos, viewport_height, aspect, focal_length);
 	color background = color(0.0, 0.0, 0.0);
-	int cases = 5;
+	int cases = 6;
 	if (cases == 0)
 	{
 		shared_ptr<texture> number_texture = make_shared<image_texture>("../images/numberGrid.png");
@@ -106,7 +106,6 @@ void ray_trace(ppm_image& image)
 		world.add(make_shared<sphere>(point3(0, 0, -1), 0.5f, number_surface));
 		world.add(make_shared<sphere>(point3(0, -100.5, -1), 100, make_shared<lambertian>(checker)));
 		world.add(make_shared<triangle>(point3(-2, 0, 0), point3(-1, 0, 1), point3(-2, 1, 1), make_shared<lambertian>(checker)));
-		world.add(make_shared<triangle>(point3(2, 0, 0), point3(1, 0, 1), point3(2, 1, 1), number_surface));
 		// Ray trace
 		for (int j = 0; j < height; j++)
 		{
@@ -230,21 +229,20 @@ void ray_trace(ppm_image& image)
 	{
 		hittable_list world;
 
-		auto material_ground = make_shared<lambertian>(color(0.8, 0.8, 0.0));
-		auto material_center = make_shared<lambertian>(color(0.1, 0.2, 0.5));
-		auto material_left = make_shared<dielectric>(1.5);
-		auto material_right = make_shared<metal>(color(0.8, 0.6, 0.2), 0.0);
+		shared_ptr<material> bottom = make_shared<lambertian>(color(0.5f));
+		shared_ptr<material> lambertian_yellow = make_shared<lambertian>(color(0.992, 0.949, 0.325));
+		shared_ptr<material> glass = make_shared<dielectric>(1.5);
+		shared_ptr<material> metal_red = make_shared<metal>(color(1, 0, 0), 0.3f);
 
-		world.add(make_shared<sphere>(point3(0.0, -100.5, -1.0), 100.0, material_ground));
-		world.add(make_shared<sphere>(point3(0.0, 0.0, -1.0), 0.5, material_center));
-		world.add(make_shared<sphere>(point3(-1.0, 0.0, -1.0), 0.5, material_left));
-		world.add(make_shared<sphere>(point3(-1.0, 0.0, -1.0), -0.45, material_left));
-		world.add(make_shared<sphere>(point3(1.0, 0.0, -1.0), 0.5, material_right));
-		point3 lookfrom(3, 3, 2);
+		world.add(make_shared<sphere>(point3(0.0, -100.5, -1.0), 100.0, bottom));
+		world.add(make_shared<sphere>(point3(0.0, 0.0, -1.0), 0.5, lambertian_yellow));
+		world.add(make_shared<sphere>(point3(-1.0, 0.0, -1.0), 0.5, glass));
+		world.add(make_shared<sphere>(point3(1.0, 0.0, -1.0), 0.5, metal_red));
+		point3 lookfrom(-3, 3, 2);
 		point3 lookat(0, 0, -1);
 		vec3 vup(0, 1, 0);
-		auto dist_to_focus = length(lookfrom - lookat);
-		auto aperture = 2.0;
+		float dist_to_focus = length(lookfrom - lookat);
+		float aperture = 2.0;
 
 		camera cam1(lookfrom, lookat, vup, 20, aspect, aperture, dist_to_focus);
 		for (int j = 0; j < height; j++)
@@ -275,14 +273,14 @@ void ray_trace(ppm_image& image)
 		shared_ptr<material> lambertian_red = make_shared<lambertian>(color(0.898, 0.243, 0.243));
 		shared_ptr<material> lambertian_blue = make_shared<lambertian>(color(0.2, 0.435, 0.858));
 
-		point3 center1(0.2,0.2,0.2);
+		point3 center1(0.2, 0.2, 0.2);
 		point3 center2(2, 0.5, 0.9);
 		point3 center3(-2, 0.5, 0.9);
 		point3 center4(-1, 0.5, 0.9);
 		world.add(make_shared<sphere>(point3(0, -1000, 0), 1000, bottom));
 		world.add(make_shared<moving_sphere>(center1, point3(0, random_float(0, 0.5), 0) + center1, 0.0, 1.0, 0.2, lambertian_red));
 		world.add(make_shared<moving_sphere>(center2, point3(random_float(0, 0.5), 0, 0) + center2, 0.0, 1.0, 0.2, lambertian_blue));
-		world.add(make_shared<moving_sphere>(center3, point3( 0, random_float(0, 0.5), 0) + center3, 0.0, 1.0, 0.2, lambertian_blue));
+		world.add(make_shared<moving_sphere>(center3, point3(0, random_float(0, 0.5), 0) + center3, 0.0, 1.0, 0.2, lambertian_blue));
 		world.add(make_shared<moving_sphere>(center4, point3(0, random_float(0, 0.5), 0) + center4, 0.0, 1.0, 0.2, lambertian_red));
 
 		point3 lookfrom(13, 3, 2);
@@ -311,6 +309,65 @@ void ray_trace(ppm_image& image)
 		}
 
 		image.save("motion_blur.png");
+	}
+	else if (cases == 6)
+	{
+		vec3 camera_pos(0, 0, 15);
+		float viewport_height = 2.0f;
+		float focal_length = 4.0;
+		camera cam2(camera_pos, viewport_height, aspect, focal_length);
+		hittable_list world;
+
+		shared_ptr<material> bottom = make_shared<lambertian>(color(0.5f));
+		shared_ptr<texture> sun_texture = make_shared<image_texture>("../images/sun.jpg");
+		shared_ptr<material> sun_surface = make_shared<lambertian>(sun_texture);
+		shared_ptr<texture> mercury_texture = make_shared<image_texture>("../images/mercury.jpg");
+		shared_ptr<material> mercury_surface = make_shared<lambertian>(mercury_texture);
+		shared_ptr<texture> venus_texture = make_shared<image_texture>("../images/venus.jpg");
+		shared_ptr<material> venus_surface = make_shared<lambertian>(venus_texture);
+		shared_ptr<texture> earth_texture = make_shared<image_texture>("../images/earth.jpg");
+		shared_ptr<material> earth_surface = make_shared<lambertian>(earth_texture);
+		shared_ptr<texture> mars_texture = make_shared<image_texture>("../images/mars.jpg");
+		shared_ptr<material> mars_surface = make_shared<lambertian>(mars_texture);
+		shared_ptr<texture> jupiter_texture = make_shared<image_texture>("../images/jupiter.jpg");
+		shared_ptr<material> jupiter_surface = make_shared<lambertian>(jupiter_texture);
+		shared_ptr<texture> saturn_texture = make_shared<image_texture>("../images/Saturn.jpg");
+		shared_ptr<material> saturn_surface = make_shared<lambertian>(saturn_texture);
+		shared_ptr<texture> uranus_texture = make_shared<image_texture>("../images/uranus.jpg");
+		shared_ptr<material> uranus_surface = make_shared<lambertian>(uranus_texture);
+		shared_ptr<texture> naptune_texture = make_shared<image_texture>("../images/naptune.jpg");
+		shared_ptr<material> naptune_surface = make_shared<lambertian>(naptune_texture);
+
+		world.add(make_shared<sphere>(point3(0, -1000, 0), 995, bottom));
+		world.add(make_shared<sphere>(point3(-6.5, 0, 0), 3.0f, sun_surface));
+		world.add(make_shared<sphere>(point3(-3, 0,  0), 0.1f, mercury_surface));
+		world.add(make_shared<sphere>(point3(-2.5, 0, 0), 0.2f, venus_surface));
+		world.add(make_shared<sphere>(point3(-1.75, 0, 0), 0.4f, earth_surface));
+		world.add(make_shared<sphere>(point3(-1, 0, 0), 0.2f, mars_surface));
+		world.add(make_shared<sphere>(point3(0.5, 0, 0), 1.0f, jupiter_surface));
+		world.add(make_shared<sphere>(point3(2.5, 0, 0), 0.85f, saturn_surface));
+		world.add(make_shared<sphere>(point3(4, 0, 0), 0.4f, uranus_surface));
+		world.add(make_shared<sphere>(point3(5, 0, 0), 0.4f, naptune_surface));
+
+		for (int j = 0; j < height; j++)
+		{
+			for (int i = 0; i < width; i++)
+			{
+				color c(0, 0, 0);
+				for (int s = 0; s < samples_per_pixel; s++) // antialias
+				{
+					float u = float(i + random_float()) / (width - 1);
+					float v = float(height - j - 1 - random_float()) / (height - 1);
+
+					ray r = cam2.get_ray(u, v);
+					c += ray_color(r, world, max_depth);
+				}
+				c = normalize_color(c, samples_per_pixel);
+				image.set_vec3(j, i, c);
+			}
+		}
+
+		image.save("solar_system.png");
 	}
 
 }
