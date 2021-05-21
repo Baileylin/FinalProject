@@ -15,7 +15,7 @@ raytracer/build $ start CS312-FinalProject.sln
 ```
 To run the program, set "materials" as the starup project in Visual Studio and run it.
 
-To recreate different images, change the variable "cases" in materials.cpp on line 95 to numbers between 0 and 6. 
+To recreate different images, change the variable "cases" in materials.cpp on line 95 to integers between 0 and 6. 
 ## Textures
 This feature allows sphere and triangles to have the following implemented textures. 
 ### Implemented textures
