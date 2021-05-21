@@ -17,7 +17,7 @@ To run the program, set "materials" as the starup project in Visual Studio and r
 
 To recreate different images, change the variable "cases" in materials.cpp on line 95 to numbers between 0 and 6. 
 ## Textures
-The program allows sphere and triangles to have the following implemented textures. 
+This feature allows sphere and triangles to have the following implemented textures. 
 ### Implemented textures
 1. Constant Texture
     The constant texture is used to hold a color. In lambertian material, the orignal albedo color is replaced by a texture so that lambertian material can have different textures.
@@ -33,7 +33,7 @@ This texture allows am image to be mapped on sphere and triangle.
 
 
 ## Arbitrary Light Sources
-The program allows sphere, triangles, and plane to become a light source. In the project, one addtional material called "emit_light" was added. This material will not scatter light and could serve as a light source. 
+This feature allows sphere, triangles, and plane to become a light source. In the project, one addtional material called "emit_light" was added. This material will not scatter light and could serve as a light source. 
 
 ### Sample Image
 <img src='./images/light_sources.png'  width='550' />
@@ -46,7 +46,7 @@ This feature is similar to the functionality of a lens. When an object is in a s
 <img src='./images/defocus_blur.png'  width='550' />
 
 ### Motion Blur
-This feature allows the 
+This feature allows the sphere to have a blurry effect that looks like the sphere is moving. To implement this feature, a new hittable object called "moving_sphere" is created, and it has similar hit() function to the sphere. The difference is that the center of the moving_sphere is a function of time. The ray and camera is also updated to have a record of time. The scattered ray for materials is also updated because ray now has an extra parameter of time.
 
 #### Sample Image
 <img src='./images/motion_blur.png'  width='550' />
