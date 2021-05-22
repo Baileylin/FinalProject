@@ -6,7 +6,7 @@ Note on Monte Carlo Path Tracing: the ray tracer implemented in Lab3 is using pa
 ## Minumum Required Features
 1. Monte Carlo Path Tracing (completed by May 13) 
 2. Textures (completed by May 14)
-This features allows objects to have customized texture. For example, an image could be the texture of a sphere. To implement this features, a new class will need to be created for texture. In addition, texture coordinates (u, v) for each hittable objects(sphere, triangle, and plane) need to be calculated. For sphere, we could parameterize . For triangle, barycentric coordinates will be used to calculate the texture coordinates within a triangle. 
+This features allows objects to have customized texture. For example, an image could be the texture of a sphere. To implement this features, a new class will need to be created for texture. In addition, texture coordinates (u, v) for each hittable objects(sphere, triangle, and plane) need to be calculated. For sphere, we could parameterize the (u,v) coordinates with the conversion between cartesian coordinates system and spherical coordinates system. For triangle, barycentric coordinates will be used to calculate the texture coordinates within a triangle. 
 3. Light Sources (completed by May 15)
 This feature allows objects to become a light source. To implement this feature, a new material will be added that with similar structure to lambertian material, but there is no scattering for the light source material. 
 4. Motion Blur (complete by May 17)
